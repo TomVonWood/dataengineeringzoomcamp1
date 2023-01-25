@@ -1,0 +1,51 @@
+Q1:       --iidfile string          Write the image ID to the file
+
+q2: 3
+
+q3:
+sql: 20530
+ select 
+count(1)
+
+from green_taxi_trips
+
+where lpep_pickup_datetime::date = date '2019-01-15' and lpep_dropoff_datetime::date = date '2019-01-15'
+
+
+q4: A:2019-01-15
+select
+lpep_pickup_datetime::date,
+max(trip_distance)
+
+from green_taxi_trips
+
+group by lpep_pickup_datetime::date 
+order by max(trip_distance) desc
+
+q5: A: 2: 1282 ; 3: 254
+
+select 
+count(*) FILTER (WHERE passenger_count = 2) AS two,
+count(*) FILTER (WHERE passenger_count = 3) AS three
+
+from green_taxi_trips
+
+where (lpep_pickup_datetime::date = date '2019-01-01')
+
+q6: a:Long Island City/Queens Plaza
+
+select 
+max(tip_amount) tipmax,
+Doo."Zone"
+
+from green_taxi_trips as gt
+
+left join zone_taxi pu
+	ON pu."LocationID" = gt."PULocationID"
+
+LEFT JOIN zone_taxi Doo
+	ON gt."DOLocationID" = Doo."LocationID"
+
+where pu."Zone" = 'Astoria'
+group by Doo."Zone"
+order by max(tip_amount) desc
